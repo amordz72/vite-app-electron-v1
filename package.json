@@ -14,9 +14,11 @@
     "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "electron-dev": "^1.0.1",
     "electron-packager": "^15.4.0",
     "vue": "^3.2.25",
+    "vue-axios": "^3.4.1",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },
