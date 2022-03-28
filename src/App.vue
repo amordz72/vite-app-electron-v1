@@ -5,9 +5,10 @@ import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-<div>
+  <div  >
     <Navbar></Navbar>
-</div>
+  </div>
+  <router-view />
 </template>
 
 <style>
@@ -15,7 +16,5 @@ import Navbar from "./components/Navbar.vue";
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
-
 }
 </style>
