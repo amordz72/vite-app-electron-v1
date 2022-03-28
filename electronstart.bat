@@ -1,2 +1,1 @@
-npm start 
-pause
+npm run electron:start

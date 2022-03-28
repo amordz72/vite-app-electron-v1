@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
   
-    "start": "run electron ."
+    "electron:start": "electron .",
+    "build_e": "electron ."
   },
   "dependencies": {
     "vue": "^3.2.25"
