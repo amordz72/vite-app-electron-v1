@@ -4,12 +4,16 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       data: this.$store.state.name,
     };
+  }, 
+  computed: {
+    projects() {
+      return "this.$store_2.state.projects;"
+    },
   },
 };
 </script>
