@@ -1,13 +1,4 @@
-<script setup>
-import { ref } from "vue";
 
-defineProps({
-  msg: String,
- 
-});
-
-
-</script>
 
 <template>
   <div class="">
@@ -35,6 +26,12 @@ defineProps({
             <li class="nav-item">
               <router-link to="/about" class="nav-link">Abaut</router-link>
             </li>
+            <li class="nav-item" v-if="current_user=='Gust'">
+              <router-link to="/login" class="nav-link">Login</router-link>
+            </li>
+            <li class="nav-item" v-if="current_user!='Gust'">
+              <a class="nav-link logout" @click="logout">logout</a>
+            </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -44,7 +41,7 @@ defineProps({
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-               Gust
+                {{ current_user.replace('@gmail.com', '') }}
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Action</a></li>
@@ -70,12 +67,67 @@ defineProps({
     </nav>
   </div>
 </template>
+<script >
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import app from "../firebase";
+const auth = getAuth(app);
+import router from "../router";
+
+/**/
+export default {
+  computed: {
+    current_user: function () {
+      if (this.$store.state.user != null) {
+        return this.$store.state.user.email;
+      } else {
+        return "Gust";
+      }
+
+      return;
+    },
+  },
+  methods: {
+    logout: function () {
+      signOut(auth)
+        .then(() => {
+          this.$store.dispatch("destroy_user");
+        })
+        .then(() => {
+          router.push("/login"); //
+        })
+        .catch((error) => {
+          // An error happened.
+          console.log(error);
+        }); /* */
+    },
+    onAuthStateChanged: function () {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          const uid = user.uid;
+          // ...
+        } else {
+          // User is signed out
+          // ...
+        }
+      });
+    },
+  },
+};
+</script>
+
+
 
 <style scoped>
 a {
-  color: black;
+  color: white;
+  text-decoration: none;
 }
-.router-link-exact-active{
-   color: #eb2626 !important;
+.logout {
+  cursor: pointer;
+}
+.router-link-exact-active {
+  color: #eb2626 !important;
 }
 </style>

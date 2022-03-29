@@ -17,6 +17,7 @@
     "axios": "^0.26.1",
     "electron-dev": "^1.0.1",
     "electron-packager": "^15.4.0",
+    "firebase": "^9.6.10",
     "vue": "^3.2.25",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.13",
