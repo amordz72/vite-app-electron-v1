@@ -1,13 +1,24 @@
 <template>
-  <div class="container">
-    <ul>
-      <ol v-for="user in posts" :key="user.id">
-        {{
-          user.data.title 
-        }}
-      </ol>
-    </ul>
-    <button @click="add">add</button>
+  <div class="container mt-3">
+    <table class="table table-responsive table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Title</th>
+          <th>Del</th>
+        </tr>
+      </thead>
+      <tbody class="table-light">
+        <tr v-for="p in posts" :key="p.id">
+          <td>{{ p.data.title }}</td>
+          <td>
+            
+            <button class="btn btn-info" @click.stop.prevent="update(p.id)">update</button> 
+            <button class="btn btn-danger" @click.stop.prevent="del(p.id)">del</button> 
+           
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -15,7 +26,14 @@
 import axios from "axios";
 import router from "../../router";
 
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 
 import app from "../../firebase";
 const db = getFirestore(app);
@@ -27,22 +45,6 @@ export default {
     };
   },
   methods: {
-    get_users: function () {
-      var me = this;
-      axios
-        .get(
-          "https://code-builder-528e4-default-rtdb.europe-west1.firebasedatabase.app/posts/.json"
-        )
-        //   .get("https://code-builder-528e4-default-rtdb.europe-west1.cloud-firestore.app/posts/.json")
-
-        .then((dd) => {
-          me.posts = dd.data;
-          alert(me.posts[0].name);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     add: async function () {
       try {
         const docRef = await addDoc(collection(db, "users"), {
@@ -59,15 +61,26 @@ export default {
     },
     get: async function () {
       var me = this;
+      me.posts = [];
       const querySnapshot = await getDocs(collection(db, "posts"));
       querySnapshot.forEach((doc) => {
         me.posts.push({
-
-          id: doc.id ,
-         data:  doc.data() 
-        })
-      
-      });  console.log(me.posts);
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+      // console.log(me.posts);
+    },
+    del: async function (id) {
+      await deleteDoc(doc(db, "posts", id));
+      this.get(); //
+    },
+    update: async function (id) {
+      const postRef = doc(db, "posts", id);
+      await updateDoc(postRef, {
+        title: 'new title',
+      });
+      this.get(); //
     },
   },
   mounted() {
