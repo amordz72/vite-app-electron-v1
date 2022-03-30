@@ -24,7 +24,7 @@ export default {
     get_users: function () {
       var me = this;
       axios
-        .get("https://jsonplaceholder.typicode.com/users")
+        .get("http://code-builder-528e4.appspot.com/users")
         .then((dd) => {
           me.users = dd.data;
         })

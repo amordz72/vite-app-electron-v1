@@ -36,14 +36,34 @@
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
-                id="navbarDropdown"
+                id="post_list"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+              Posts
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="post_list">
+                <li><router-link to="/posts" class="dropdown-item">All</router-link></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="user_list"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 {{ current_user.replace('@gmail.com', '') }}
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu" aria-labelledby="user_list">
                 <li><a class="dropdown-item" href="#">Action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><hr class="dropdown-divider" /></li>
@@ -121,7 +141,7 @@ export default {
 
 <style scoped>
 a {
-  color: white;
+  color: rgb(28, 105, 221);
   text-decoration: none;
 }
 .logout {
