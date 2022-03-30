@@ -2,7 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Login from "../views/Login.vue";
+
 import Posts from "../views/posts/Index.vue";
+import Post_create from "../views/posts/Create.vue";
 
 const routes = [
   {
@@ -16,15 +18,21 @@ const routes = [
     component: Home,
   },
   {
+    path: "/about",
+    name: "About",
+    component: About,
+  },
+  ,
+  {
     path: "/posts",
     name: "Posts",
     component: Posts,
   },
   {
-    path: "/about",
-    name: "About",
-    component: About,
-  },
+    path: "/post/create",
+    name: "post_create",
+    component: Post_create,
+  }
 ];
 
 const router = createRouter({

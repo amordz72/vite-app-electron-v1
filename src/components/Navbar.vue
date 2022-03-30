@@ -45,7 +45,8 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="post_list">
                 <li><router-link to="/posts" class="dropdown-item">All</router-link></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><router-link to="/post/create" class="dropdown-item">Create</router-link></li>
+             
                 <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a class="dropdown-item" href="#">Something else here</a>
