@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-3">
-    <table class="table table-responsive table-hover">
+    <table class="table table-responsive table-hover text-center">
       <thead class="table-dark">
         <tr>
           <th>Title</th>
