@@ -11,10 +11,8 @@
         <tr v-for="p in posts" :key="p.id">
           <td>{{ p.data.title }}</td>
           <td>
-            
-            <button class="btn btn-info" @click.stop.prevent="update(p.id)">update</button> 
-            <button class="btn btn-danger" @click.stop.prevent="del(p.id)">del</button> 
-           
+            <button class="btn btn-info" @click.stop.prevent="update(p.id)">update</button>
+            <button class="btn btn-danger" @click.stop.prevent="del(p.id)">del</button>
           </td>
         </tr>
       </tbody>

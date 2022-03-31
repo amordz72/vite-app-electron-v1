@@ -2,9 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Login from "../views/Login.vue";
-
 import Posts from "../views/posts/Index.vue";
 import Post_create from "../views/posts/Create.vue";
+
 
 const routes = [
   {
