@@ -1,27 +1,34 @@
 <template>
   <div class="container mt-3">
-    <table class="table table-responsive table-hover text-center">
-      <thead class="table-dark">
-        <tr>
-          <th>Title</th>
-          <th>Del</th>
-        </tr>
-      </thead>
-      <tbody class="table-light">
-        <tr v-for="p in posts" :key="p.id">
-          <td>{{ p.data.title }}</td>
-          <td>
-            <button class="btn btn-info" @click.stop.prevent="update(p.id)">update</button>
-            <button class="btn btn-danger" @click.stop.prevent="del(p.id)">del</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="col-md-4">
+        <Add @get="get"></Add>
+      </div>
+      <div class="col-md-8">
+        <table class="table table-responsive table-hover text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>Title</th>
+              <th>Del</th>
+            </tr>
+          </thead>
+          <tbody class="table-light">
+            <tr v-for="p in posts" :key="p.id">
+              <td>{{ p.data.title }}</td>
+              <td>
+                <button class="btn btn-info" @click.stop.prevent="update(p.id)">update</button>
+                <button class="btn btn-danger" @click.stop.prevent="del(p.id)">del</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+
 import router from "../../router";
 
 import {
@@ -36,28 +43,22 @@ import {
 import app from "../../firebase";
 const db = getFirestore(app);
 
+import Add from '../../components/posts/Add.vue'
+
+
 export default {
+  components: {
+    Add,
+  },
   data() {
     return {
       posts: [],
     };
   },
   methods: {
-    add: async function () {
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          first: "Alan",
-          middle: "Mathison",
-          last: "Turing",
-          born: 1912,
-        });
 
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    },
     get: async function () {
+
       var me = this;
       me.posts = [];
       const querySnapshot = await getDocs(collection(db, "posts"));

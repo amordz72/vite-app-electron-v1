@@ -29,7 +29,7 @@ const store = createStore(
       }
       
       , modules: {
-   
+  
       }
    })
 

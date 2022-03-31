@@ -1,16 +1,12 @@
 <template>
   <div class="container">
- 
-
-
-
+  
     <button type="submit" @click ="add( )">add</button>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import router from "../../router";
+ 
 
 import { collection, addDoc, getFirestore } from "firebase/firestore";
 
