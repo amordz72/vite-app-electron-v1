@@ -6,8 +6,11 @@ import {
     getDocs,
     deleteDoc,
     doc,
-    updateDoc, addDoc, getFirestore
+    updateDoc,
+    addDoc,
+    getFirestore
 } from "firebase/firestore";
+
 
 
 const db = getFirestore(app);
@@ -19,7 +22,15 @@ export async function add_post(obj) {
     const docRef = await addDoc(collection(db, tableName), {
         obj
     });
-    return docRef;
+
+
+    if (postRef) {
+        return postRef
+    } else {
+        return false
+    }
+
+
 }
 
 export async function update_post(id, obj) {
@@ -28,12 +39,23 @@ export async function update_post(id, obj) {
     await updateDoc(postRef, {
         obj
     });
-    return postRef
+
+
+    if (postRef) {
+        return postRef
+    } else {
+        return false
+    }
+
 }
 export async function del_post(id) {
 
-    await deleteDoc(doc(db, tableName, id));
-
+    const result = await deleteDoc(doc(db, tableName, id));
+    if (result) {
+        return result
+    } else {
+        return false
+    }
 
 }
 
@@ -45,17 +67,32 @@ export async function get_all_posts() {
     querySnapshot.forEach((doc) => {
 
         const id = doc.id;
-   
+
         result.push({
-           id, ...doc.data()
+            id,
+            ...doc.data()
         });
     });
 
-    console.log(result);
 
-    return result
+    if (result) {
+        return result
+    } else {
+        return false
+    }
+
 }
 
 
+export async function get_by_id(id) {
+    const docRef = doc(db, tableName, id);
+    const docSnap = await getDoc(docRef);
 
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        // doc.data() will be undefined in this case
+        return false
+    }
 
+}
