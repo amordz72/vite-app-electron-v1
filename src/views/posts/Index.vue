@@ -1,6 +1,10 @@
 <template>
   <div class="container mt-3">
     <div class="row">
+      <div class="col-12">
+        <div class="alert" :class="{ 'alert-info': msg, 'alert-danger': hasError }"></div>
+      </div>
+
       <div class="col-md-4">
         <Add @get="get"></Add>
       </div>
@@ -30,6 +34,20 @@
           </tbody>
         </table>
       </div>
+
+      <nav aria-label="Page navigation mt-4">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link nav-btn" @click="first">First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link nav-btn" @click="next">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link nav-btn" @click="last">Last</a>
+          </li>
+        </ul>
+      </nav>
     </div>
 
     <!-- up -->
@@ -95,9 +113,13 @@ export default {
       post: {
         title: '',
         body: '',
-        first: [],
+
       },
       posts: [],
+      msg: '',
+      hasError: false,
+      limit: 1,
+      order: 'title',
     };
   },
   methods: {
@@ -106,36 +128,55 @@ export default {
 
 
       this.posts = [];
-      this.posts = await get_all_posts();
-     this.first = await first(); //
-   //   this.last = await last();
+      this.posts = await first(this.order, this.limit);
+
 
       // console.log(me.posts);
     },
+    next: async function () {
+
+
+      this.posts = await next(this.order, this.limit);
+
+    },
+    last: async function () {
+
+      this.posts = await next(this.order, this.limit);////
+
+
+    },
+
     del: async function (id) {
       del_post(id)
       this.get(); //
     },
     update: async function () {
-      update_post(this.h_id, this.post)
+      const r = await update_post(this.h_id, this.post)
+
+      this.hasError = r
+
 
       this.get(); //
     },
     edit(po) {
       this.h_id = po.id
-      this.title = po.data.title
-      this.body = po.data.body
+      this.post.title = po.title
+      this.post.body = po.body
     },
   },
   mounted() {
-   
- this.get();
+
+    this.get();
     // console.log('this.posts');
 
 
   },
 };
 </script>
+ur
 
-<style>
+<style scoped>
+.nav-btn {
+  cursor: pointer !important;
+}
 </style>

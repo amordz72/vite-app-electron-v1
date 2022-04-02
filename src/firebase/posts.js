@@ -38,11 +38,13 @@ export async function update_post(id, obj) {
     const postRef = doc(db, tableName, id);
     await updateDoc(postRef, {
         obj
-    });
+    })  
 
+    console.log('-------');
+ return postRef
 
     if (postRef) {
-        return postRef
+       
     } else {
         return false
     }
