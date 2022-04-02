@@ -21,6 +21,7 @@ export async function add_post(obj) {
     });
     return docRef;
 }
+
 export async function update_post(id, obj) {
 
     const postRef = doc(db, tableName, id);
@@ -42,9 +43,11 @@ export async function get_all_posts() {
 
     const querySnapshot = await getDocs(collection(db, tableName));
     querySnapshot.forEach((doc) => {
+
+        const id = doc.id;
+   
         result.push({
-            id: doc.id,
-            ...doc.data(),
+           id, ...doc.data()
         });
     });
 

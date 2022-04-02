@@ -10,12 +10,13 @@
             <tr>
               <th>Title</th>
               <th>body</th>
-              <th>Del</th>
+              <th class="text-danger">Action</th>
             </tr>
           </thead>
           <tbody class="table-light">
             <tr v-for="p in posts" :key="p.id">
-              <td>{{ p.data.title }}</td>
+              <td>{{ p.title }}</td>
+              <td>{{ p.body }}</td>
               <td>
                 <button
                   class="btn btn-info"
@@ -80,6 +81,7 @@ import { add_post, update_post, del_post, get_all_posts } from "../../firebase/p
 
 
 import Add from '../../components/posts/Add.vue'
+ 
 
 
 export default {
@@ -100,9 +102,9 @@ export default {
 
     get: async function () {
 
-     
+
       this.posts = [];
-      this.posts = get_all_posts();
+      this.posts =await get_all_posts();
 
       // console.log(me.posts);
     },
@@ -122,7 +124,11 @@ export default {
     },
   },
   mounted() {
-    this.get(); //
+    this.get();
+
+    // console.log('this.posts');
+
+
   },
 };
 </script>
