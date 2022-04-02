@@ -1,44 +1,40 @@
 <template>
   <div class="container">
-  
-    <button type="submit" @click ="add( )">add</button>
+    <button type="submit" @click="add()">add</button>
   </div>
 </template>
 
 <script>
- 
+//import { collection, addDoc, getFirestore } from "firebase/firestore";
 
-import { collection, addDoc, getFirestore } from "firebase/firestore";
+//import app from "../../firebase";
+//const db = getFirestore(app);
+//const db = getFirestore(app);
 
-import app from "../../firebase";
-const db = getFirestore(app);
+import { add_post } from "../../firebase/posts";
 
 export default {
   data() {
     return {
       posts: [],
+      obj: {
+        title: "Alan11",
+        body: "lorem 155",
+      },
     };
   },
   methods: {
-    
-    add: async function ( ) {
-      try {
-         
-        const docRef = await addDoc(collection(db, "posts"), {
-          title: "Alan2",
-        body:'lorem 155'
-        });
-
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+    add() {
+return add_post(this.obj);
+      
     },
   },
   mounted() {
     // this.get_users();
   },
 };
+
+
 </script>
 
 <style>

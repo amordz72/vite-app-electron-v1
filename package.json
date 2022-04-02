@@ -11,13 +11,14 @@
     "electron:start": "electron .",
     "build_e": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ele_fc\"",
+    "package-win": "electron-packager . --overwrite --asar=false --platform=win32 --arch=ia32 --icon=src/assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ele_fc\"",
     "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
   },
   "dependencies": {
     "axios": "^0.26.1",
     "bootstrap": "^5.0.1",
     "electron-dev": "^1.0.1",
+    "electron-icon-maker": "^0.0.4",
     "electron-packager": "^15.4.0",
     "firebase": "^9.6.10",
     "vue": "^3.2.25",

@@ -8,7 +8,6 @@
         <table class="table table-responsive table-hover text-center">
           <thead class="table-dark">
             <tr>
-        
               <th>Title</th>
               <th>body</th>
               <th>Del</th>
@@ -16,7 +15,6 @@
           </thead>
           <tbody class="table-light">
             <tr v-for="p in posts" :key="p.id">
-            
               <td>{{ p.data.title }}</td>
               <td>
                 <button
@@ -52,16 +50,20 @@
           <div class="modal-body">
             <div class="mb-2">
               <label for class="form-label">Title</label>
-              <input type="text" class="form-control" v-model="title" />
+              <input type="text" class="form-control" v-model="post.title" />
             </div>
             <div class="mb-2">
               <label for class="form-label">Body</label>
-              <input type="text" class="form-control" v-model="body" />
+              <input type="text" class="form-control" v-model="post.body" />
             </div>
           </div>
           <div class="modal-footer">
-           
-            <button type="button" class="btn btn-primary" @click="update" data-bs-dismiss="modal">Save</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="update"
+              data-bs-dismiss="modal"
+            >Save</button>
           </div>
         </div>
       </div>
@@ -74,17 +76,8 @@
 
 import router from "../../router";
 
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { add_post, update_post, del_post, get_all_posts } from "../../firebase/posts";
 
-import app from "../../firebase";
-const db = getFirestore(app);
 
 import Add from '../../components/posts/Add.vue'
 
@@ -96,8 +89,10 @@ export default {
   data() {
     return {
       h_id: null,
-      title: '',
-      body: '',
+      post: {
+        title: '',
+        body: '',
+      },
       posts: [],
     };
   },
@@ -105,28 +100,19 @@ export default {
 
     get: async function () {
 
-      var me = this;
-      me.posts = [];
-      const querySnapshot = await getDocs(collection(db, "posts"));
-      querySnapshot.forEach((doc) => {
-        me.posts.push({
-          id: doc.id,
-          data: doc.data(),
-        });
-      });
+     
+      this.posts = [];
+      this.posts = get_all_posts();
+
       // console.log(me.posts);
     },
     del: async function (id) {
-      await deleteDoc(doc(db, "posts", id));
+      del_post(id)
       this.get(); //
     },
     update: async function () {
+      update_post(this.h_id, this.post)
 
-      const postRef = doc(db, "posts", this.h_id);
-      await updateDoc(postRef, {
-        title: this.title,
-        body: this.body,
-      });
       this.get(); //
     },
     edit(po) {
