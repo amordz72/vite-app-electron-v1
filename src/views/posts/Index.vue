@@ -78,11 +78,11 @@
 import router from "../../router";
 
 import { add_post, update_post, del_post, get_all_posts } from "../../firebase/posts";
-import { paginate } from "../../firebase/paginate";
+import { first, next, last } from "../../firebase/paginate";
 
 
 import Add from '../../components/posts/Add.vue'
- 
+
 
 
 export default {
@@ -95,6 +95,7 @@ export default {
       post: {
         title: '',
         body: '',
+        first: [],
       },
       posts: [],
     };
@@ -105,8 +106,9 @@ export default {
 
 
       this.posts = [];
-      this.posts =await get_all_posts();
-     // this.posts =await paginate();
+      this.posts = await get_all_posts();
+     this.first = await first(); //
+   //   this.last = await last();
 
       // console.log(me.posts);
     },
@@ -126,8 +128,8 @@ export default {
     },
   },
   mounted() {
-    this.get();
-
+   
+ this.get();
     // console.log('this.posts');
 
 
