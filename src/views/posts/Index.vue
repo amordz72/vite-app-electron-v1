@@ -97,6 +97,7 @@ import router from "../../router";
 
 import { add_post, update_post, del_post, get_all_posts } from "../../firebase/posts";
 import { first, next, last } from "../../firebase/paginate";
+//import { first, next, lastVisible } from "../../firebase/pg";
 
 
 import Add from '../../components/posts/Add.vue'
@@ -127,21 +128,35 @@ export default {
     get: async function () {
 
 
-      this.posts = [];
-      this.posts = await first(this.order, this.limit);
 
+      await this.first();
+      // console.log('this.posts');
+      // console.log(this.posts);
 
       // console.log(me.posts);
+    },
+    first: async function () {
+
+      this.posts = [];
+      this.posts = await first;
+
+ 
+
+
+console.log(  this.posts );
+
+
+
     },
     next: async function () {
 
 
-      this.posts = await next(this.order, this.limit);
+      this.posts = await next();
 
     },
     last: async function () {
 
-      this.posts = await next(this.order, this.limit);////
+      this.posts = await last();
 
 
     },

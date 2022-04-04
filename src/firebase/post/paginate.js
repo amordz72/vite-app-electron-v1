@@ -1,4 +1,4 @@
-import app from './index'
+import app from '../index'
 
 
 import {
@@ -14,25 +14,26 @@ const tableName = 'posts';
 
 
 
-export async function first(limit_it = '2', OrderBy = 'title') {
+export async function first(limit_it=25, OrderBy) {
 
     const result = []
 
-    // Query the first page of docs
-    const first = query(collection(db, tableName), orderBy(OrderBy), limit(limit_it));
-    const documentSnapshots = await getDocs(first);
+    var first = db.collection(tableName)
+        .orderBy(OrderBy)
+        .limit(limit_it);
 
+    return first.get().then(function (documentSnapshots) {
+        // Get the last visible document
+        var lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+        console.log("last", lastVisible);
 
-    documentSnapshots.forEach((doc) => {
-
-        const id = doc.id;
-
-        result.push({
-            id,
-            ...doc.data()
-        });
+        // Construct a new query starting at this document,
+        // get the next 25 cities.
+        var next = db.collection(tableName)
+            .orderBy(OrderBy)
+            .startAfter(lastVisible)
+            .limit(25);
     });
-    console.log(result);
 
 
     if (result) {
@@ -48,7 +49,6 @@ export async function first(limit_it = '2', OrderBy = 'title') {
 
 
 }
-
 export async function last(OrderBy = 'title', limit_it = 5) {
 
     const result = []
@@ -59,10 +59,10 @@ export async function last(OrderBy = 'title', limit_it = 5) {
 
     // Get the last visible document
     const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    const documentSnapshots2 = await getDocs(lastVisible);
-    /**/
 
-    documentSnapshots2.forEach((doc) => {
+
+
+    lastVisible.forEach((doc) => {
 
         const id = doc.id;
 
@@ -73,8 +73,6 @@ export async function last(OrderBy = 'title', limit_it = 5) {
     });
 
 
-
-    console.log("lastVisible");
     console.log(result);
 
     if (result) {
@@ -86,22 +84,12 @@ export async function last(OrderBy = 'title', limit_it = 5) {
 
 
 }
-export async function next(limit_it = 2,start_after, OrderBy = 'title') {
+export async function next(OrderBy = 'title', limit_it = 2) {
 
     const result = []
 
-
-    // Query the first page of docs
-    const first = query(collection(db, tableName), orderBy(OrderBy), limit(limit_it));
-    const documentSnapshots1 = await getDocs(first);
-
-    // Get the last visible document
-    const lastVisible = documentSnapshots1.docs[documentSnapshots1.docs.length - 1];
-    console.log("last", lastVisible);
-
     const next = query(collection(db, tableName),
         orderBy(OrderBy),
-      startAfter(start_after),//  
         limit(limit_it));
     const documentSnapshots = await getDocs(next);
 
@@ -126,5 +114,6 @@ export async function next(limit_it = 2,start_after, OrderBy = 'title') {
 
 
 }
+
 
 
