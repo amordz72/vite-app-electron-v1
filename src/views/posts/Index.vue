@@ -38,10 +38,13 @@
       <nav aria-label="Page navigation mt-4">
         <ul class="pagination">
           <li class="page-item">
-            <a class="page-link nav-btn" @click="first">First</a>
+            <a class="page-link nav-btn" @click="next">Next</a>
           </li>
           <li class="page-item">
-            <a class="page-link nav-btn" @click="next">Next</a>
+            <a class="page-link nav-btn" @click="prev">Prev</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link nav-btn" @click="first">First</a>
           </li>
           <li class="page-item">
             <a class="page-link nav-btn" @click="last">Last</a>
@@ -96,8 +99,8 @@
 import router from "../../router";
 
 import { add_post, update_post, del_post, get_all_posts } from "../../firebase/posts";
-import { first, next, last } from "../../firebase/paginate";
-//import { first, next, lastVisible } from "../../firebase/pg";
+//import { first, next, last } from "../../firebase/paginate";
+import { first, next, prev ,last} from "../../firebase/pg-2";
 
 
 import Add from '../../components/posts/Add.vue'
@@ -121,6 +124,8 @@ export default {
       hasError: false,
       limit: 1,
       order: 'title',
+      first_p: '',
+      last_p: '',
     };
   },
   methods: {
@@ -138,25 +143,40 @@ export default {
     first: async function () {
 
       this.posts = [];
-      this.posts = await first;
 
- 
-
-
-console.log(  this.posts );
-
-
+      var dd = await first()
+      this.posts = dd.result;
+      this.last_p = dd.lastVisible
 
     },
     next: async function () {
+      this.posts = [];
+
+      var dd = (await next(this.last_p))
+
+      this.posts = await dd.result;
+      this.last_p = dd.lastVisible
 
 
-      this.posts = await next();
+    },
+    prev: async function () {
+
+      this.posts = [];
+     
+      var dd = (await prev(this.last_p))
+
+      this.posts = await dd.result;
+      this.last_p = dd.lastVisible
+
 
     },
     last: async function () {
 
-      this.posts = await last();
+     
+      var dd = (await last(this.last_p))
+
+      this.posts = await dd.result;
+      this.last_p = dd.lastVisible
 
 
     },
@@ -188,7 +208,7 @@ console.log(  this.posts );
   },
 };
 </script>
-ur
+ 
 
 <style scoped>
 .nav-btn {
