@@ -156,6 +156,7 @@ export default {
 
       this.posts = await dd.result;
       this.last_p = dd.lastVisible
+      this.start_p = dd.firstVisible
 
 
     },
@@ -163,7 +164,7 @@ export default {
 
       this.posts = [];
      
-      var dd = (await prev(this.last_p))
+      var dd = (await prev(this.start_p))
 
       this.posts = await dd.result;
       this.last_p = dd.lastVisible
